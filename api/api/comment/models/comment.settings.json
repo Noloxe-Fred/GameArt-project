@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments",
+  "info": {
+    "name": "comment",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "content": {
+      "type": "text",
+      "required": true
+    },
+    "author": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "comments"
+    },
+    "screenshots": {
+      "via": "comment",
+      "collection": "screenshot"
+    },
+    "like": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-datas.like"
+    }
+  }
+}

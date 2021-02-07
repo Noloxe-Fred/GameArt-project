@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "screenshots",
+  "info": {
+    "name": "Screenshot",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "picture": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": false
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "screenshots"
+    },
+    "categories": {
+      "collection": "category",
+      "via": "screenshots",
+      "dominant": true
+    },
+    "comment": {
+      "model": "comment",
+      "via": "screenshots"
+    },
+    "like": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-datas.like"
+    },
+    "game": {
+      "model": "game",
+      "via": "screenshots"
+    }
+  }
+}

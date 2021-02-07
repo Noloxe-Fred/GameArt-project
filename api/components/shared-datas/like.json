@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_datas_likes",
+  "info": {
+    "name": "like",
+    "icon": "align-justify"
+  },
+  "options": {},
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}
