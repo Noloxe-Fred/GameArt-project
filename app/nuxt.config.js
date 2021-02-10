@@ -40,6 +40,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/strapi'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -60,6 +61,12 @@ export default {
       }
     }
   },
+
+  strapi: {
+    entities: ['screenshots', 'categories', 'comments', 'games', 'users'],
+    url: 'http://localhost:1337'
+  },
+
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
