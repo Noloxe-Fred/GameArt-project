@@ -2,7 +2,6 @@
   <div class="login-menu">
     <v-form v-if="loginForm" @submit.prevent="submitLogin">
     <v-container>
-      <h2>Connexion</h2>
       <div>
           <v-text-field
             v-model="usernameLog"
@@ -18,11 +17,14 @@
           ></v-text-field>
       </div>
       <v-btn type="submit">Connexion</v-btn>
+      <p
+        class="login-menu__login-form__toggle-elt"
+        @click="toggleLoginForm">Pas encore inscrit?
+      </p>
     </v-container>
   </v-form>
   <v-form v-else @submit.prevent="submitRegister">
     <v-container>
-      <h2>Inscription</h2>
       <div>
           <v-text-field
             v-model="emailReg"
@@ -42,9 +44,12 @@
           ></v-text-field>
       </div>
       <v-btn type="submit">Inscription</v-btn>
+      <p
+        @click="toggleLoginForm"
+        class="login-menu__login-form__toggle-elt"
+      >Déjà inscrit?</p>
     </v-container>
   </v-form>
-  <p @click="toggleLoginForm">{{ loginForm ? 'Pas encore inscrit?' : 'Déjà inscrit?' }}</p>
   </div>
 </template>
 
@@ -78,8 +83,19 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-menu {
   min-width: 250px;
+  &__login-form {
+    &__toggle-elt {
+      cursor: pointer;
+      font-size: 0.8em;
+      text-decoration: underline;
+      margin-top: 5px;
+      &:hover {
+        color: #3f51b5;
+      }
+    }
+  }
 }
 </style>

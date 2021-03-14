@@ -1,6 +1,5 @@
 <template>
   <v-app-bar
-    :clipped-left="clipped"
     fixed
     app
   >
@@ -36,30 +35,35 @@
         >
           <v-btn text :to="item.to">{{ item.title }}</v-btn>
         </v-list-item>
+        <v-list-item>
+          <v-btn @click="logout">Deconnexion</v-btn>
+        </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu
+    <div
       v-else
-      :close-on-content-click="false"
+      class="navbar__login-menu"
+      v-click-outside="onClickOutside"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          text
-          color="indigo"
-          v-bind="attrs"
-          v-on="on"
-        >
-          Login
-        </v-btn>
-      </template>
-      <Login />
-    </v-menu>
+      <v-btn
+        text
+        color="indigo"
+        @click="expandLogin = !expandLogin"
+        class="navbar__login-menu__expand-btn"
+      >
+        Login
+      </v-btn>
+      <v-expand-transition>
+        <Login v-show="expandLogin" class="navbar__login-menu__expand" />
+      </v-expand-transition>
+    </div>
   </v-app-bar>
 </template>
 
 
 <script>
 
+import vClickOutside from 'v-click-outside'
 import Login from './Login';
 
 export default {
@@ -68,6 +72,7 @@ export default {
   },
   data () {
     return {
+      expandLogin: false,
       menuLinks: [
         {
           title: 'Categories',
@@ -94,6 +99,9 @@ export default {
       ],
     }
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   computed: {
     isAuthenticated() {
       return this.$strapi.user?.confirmed;
@@ -103,5 +111,26 @@ export default {
       return `${user.firstName} ${user.lastName}`;
     },
   },
+  methods: {
+    logout() {
+      this.$strapi.logout();
+    },
+    onClickOutside() {
+      this.expandLogin = false;
+    }
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+.navbar {
+  &__login-menu {
+    position: relative;
+    &__expand {
+      position: absolute;
+      top: 50px;
+      right: 0;
+    }
+   }
+}
+</style>
