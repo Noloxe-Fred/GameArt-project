@@ -1,88 +1,81 @@
 <template>
   <div class="login-menu">
-    <v-form v-model="valid">
+    <v-form v-if="loginForm" @submit.prevent="submitLogin">
     <v-container>
       <h2>Connexion</h2>
       <div>
-
           <v-text-field
-            v-model="username"
-            :rules="usernameRules"
-            :counter="3"
+            v-model="usernameLog"
             label="Pseudo"
             required
           ></v-text-field>
 
           <v-text-field
-            v-model="password"
-            :rules="passwordRules"
+            v-model="passwordLog"
             label="Mot de passe"
+            type="password"
             required
           ></v-text-field>
-
       </div>
+      <v-btn type="submit">Connexion</v-btn>
     </v-container>
   </v-form>
-  <v-form v-model="register">
+  <v-form v-else @submit.prevent="submitRegister">
     <v-container>
       <h2>Inscription</h2>
       <div>
           <v-text-field
-            v-model="email"
-            :rules="emailRules"
+            v-model="emailReg"
             label="Email"
             required
           ></v-text-field>
           <v-text-field
-            v-model="username"
-            :rules="usernameRules"
-            :counter="3"
+            v-model="usernameReg"
             label="Pseudo"
             required
           ></v-text-field>
           <v-text-field
-            v-model="password"
-            :rules="passwordRules"
+            v-model="passwordReg"
+            type="password"
             label="Mot de passe"
             required
           ></v-text-field>
       </div>
+      <v-btn type="submit">Inscription</v-btn>
     </v-container>
   </v-form>
+  <p @click="toggleLoginForm">{{ loginForm ? 'Pas encore inscrit?' : 'Déjà inscrit?' }}</p>
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Login',
   data: () => ({
     login: false,
     register: false,
-    username: '',
-    usernameRules: [
-      v => !!v || 'Le pseudo est requis',
-      v => v.length <= 3 || 'Le pseudo doit contenir au moins 3 caractères',
-    ],
-    email: '',
-    emailRules: [
-      v => !!v || "L'email est requis",
-      v => /.+@.+/.test(v) || "L'email n'est pas valide",
-    ],
-    password: '',
-    passwordRules: [
-      p => p.length <= 6 || 'Le mot de passe doit contenir au moins 6 caractères'
-    ]
+    loginForm: true,
+    usernameReg: '',
+    usernameLog: '',
+    emailReg: '',
+    passwordReg: '',
+    passwordLog: '',
   }),
   methods: {
-    login: async () => {
-      await this.$strapi.login({ identifier: this.username, password: this.password })
+    async submitLogin() {
+      console.log({ identifier: this.usernameLog, password: this.passwordLog })
+      await this.$strapi.login({ identifier: this.usernameLog, password: this.passwordLog })
     },
-    register: async () => {
-      await this.$strapi.register({ email: '', username: '', password: '' })
-    }
+    async submitRegister() {
+      await this.$strapi.register({ email: this.emailReg, username: this.usernameReg, password: this.passwordReg })
+    },
+    toggleLoginForm() {
+      this.loginForm = !this.loginForm;
+    },
   }
-}
+})
 </script>
 
 <style scoped>
