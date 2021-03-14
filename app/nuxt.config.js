@@ -64,6 +64,7 @@ export default {
 
   strapi: {
     entities: ['screenshots', 'categories', 'comments', 'games', 'users'],
+    // @todo add env url
     url: 'http://localhost:1337'
   },
 
