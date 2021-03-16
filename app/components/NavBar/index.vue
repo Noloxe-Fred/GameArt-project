@@ -1,21 +1,12 @@
 <template>
-  <v-app-bar
-    fixed
-    app
-  >
-    <v-btn
-      to="/"
-      elevation="24"
-      large
-    >
-      LOGO
-    </v-btn>
-    <div v-for="(item, index) in menuLinks">
+  <v-app-bar fixed app>
+    <v-btn to="/" elevation="24" large> LOGO </v-btn>
+    <div v-for="(item, index) in menuLinks" :key="index">
       <v-btn :key="index" :to="item.to" text>{{ item.title }}</v-btn>
     </div>
     <v-spacer />
     <v-menu v-if="isAuthenticated" offset-y>
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-btn
           class="mx-2"
           text
@@ -29,10 +20,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(item, index) in userLinks"
-          :key="index"
-        >
+        <v-list-item v-for="(item, index) in userLinks" :key="index">
           <v-btn text :to="item.to">{{ item.title }}</v-btn>
         </v-list-item>
         <v-list-item>
@@ -40,16 +28,12 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <div
-      v-else
-      class="navbar__login-menu"
-      v-click-outside="onClickOutside"
-    >
+    <div v-else v-click-outside="onClickOutside" class="navbar__login-menu">
       <v-btn
         text
         color="indigo"
-        @click="expandLogin = !expandLogin"
         class="navbar__login-menu__expand-btn"
+        @click="expandLogin = !expandLogin"
       >
         Login
       </v-btn>
@@ -60,65 +44,63 @@
   </v-app-bar>
 </template>
 
-
 <script>
-
-import vClickOutside from 'v-click-outside'
-import Login from './Login';
+import vClickOutside from "v-click-outside"
+import Login from "./Login"
 
 export default {
   components: {
-    Login
+    Login,
   },
-  data () {
+  directives: {
+    clickOutside: vClickOutside.directive,
+  },
+  data() {
     return {
       expandLogin: false,
       menuLinks: [
         {
-          title: 'Categories',
-          to: '/categories'
+          title: "Categories",
+          to: "/categories",
         },
         {
-          title: 'Screeners',
-          to: '/screeners'
+          title: "Screeners",
+          to: "/screeners",
         },
         {
-          title: 'Fil',
-          to: '/wall'
-        }
+          title: "Fil",
+          to: "/wall",
+        },
       ],
       userLinks: [
         {
-          title: 'Profil',
-          to: '/profil'
+          title: "Profil",
+          to: "/profil",
         },
         {
-          title: 'Bibliothèque',
-          to: '/bibliotheque'
+          title: "Bibliothèque",
+          to: "/bibliotheque",
         },
       ],
     }
   },
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
   computed: {
     isAuthenticated() {
-      return this.$strapi.user?.confirmed;
+      return this.$strapi.user?.confirmed
     },
     userName() {
-      const { user } = this.$strapi;
-      return `${user.firstName} ${user.lastName}`;
+      const { user } = this.$strapi
+      return `${user.firstName} ${user.lastName}`
     },
   },
   methods: {
     logout() {
-      this.$strapi.logout();
+      this.$strapi.logout()
     },
     onClickOutside() {
-      this.expandLogin = false;
-    }
-  }
+      this.expandLogin = false
+    },
+  },
 }
 </script>
 
@@ -131,6 +113,6 @@ export default {
       top: 50px;
       right: 0;
     }
-   }
+  }
 }
 </style>

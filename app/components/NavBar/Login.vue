@@ -1,8 +1,8 @@
 <template>
   <div class="login-menu">
     <v-form v-if="loginForm" @submit.prevent="submitLogin">
-    <v-container>
-      <div>
+      <v-container>
+        <div>
           <v-text-field
             v-model="usernameLog"
             label="Pseudo"
@@ -15,17 +15,16 @@
             type="password"
             required
           ></v-text-field>
-      </div>
-      <v-btn type="submit">Connexion</v-btn>
-      <p
-        class="login-menu__login-form__toggle-elt"
-        @click="toggleLoginForm">Pas encore inscrit?
-      </p>
-    </v-container>
-  </v-form>
-  <v-form v-else @submit.prevent="submitRegister">
-    <v-container>
-      <div>
+        </div>
+        <v-btn type="submit">Connexion</v-btn>
+        <p class="login-menu__login-form__toggle-elt" @click="toggleLoginForm">
+          Pas encore inscrit?
+        </p>
+      </v-container>
+    </v-form>
+    <v-form v-else @submit.prevent="submitRegister">
+      <v-container>
+        <div>
           <v-text-field
             v-model="emailReg"
             label="Email"
@@ -42,44 +41,50 @@
             label="Mot de passe"
             required
           ></v-text-field>
-      </div>
-      <v-btn type="submit">Inscription</v-btn>
-      <p
-        @click="toggleLoginForm"
-        class="login-menu__login-form__toggle-elt"
-      >Déjà inscrit?</p>
-    </v-container>
-  </v-form>
+        </div>
+        <v-btn type="submit">Inscription</v-btn>
+        <p class="login-menu__login-form__toggle-elt" @click="toggleLoginForm">
+          Déjà inscrit?
+        </p>
+      </v-container>
+    </v-form>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue"
 
 export default Vue.extend({
-  name: 'Login',
+  name: "Login",
   data: () => ({
     login: false,
     register: false,
     loginForm: true,
-    usernameReg: '',
-    usernameLog: '',
-    emailReg: '',
-    passwordReg: '',
-    passwordLog: '',
+    usernameReg: "",
+    usernameLog: "",
+    emailReg: "",
+    passwordReg: "",
+    passwordLog: "",
   }),
   methods: {
     async submitLogin() {
       console.log({ identifier: this.usernameLog, password: this.passwordLog })
-      await this.$strapi.login({ identifier: this.usernameLog, password: this.passwordLog })
+      await this.$strapi.login({
+        identifier: this.usernameLog,
+        password: this.passwordLog,
+      })
     },
     async submitRegister() {
-      await this.$strapi.register({ email: this.emailReg, username: this.usernameReg, password: this.passwordReg })
+      await this.$strapi.register({
+        email: this.emailReg,
+        username: this.usernameReg,
+        password: this.passwordReg,
+      })
     },
     toggleLoginForm() {
-      this.loginForm = !this.loginForm;
+      this.loginForm = !this.loginForm
     },
-  }
+  },
 })
 </script>
 
