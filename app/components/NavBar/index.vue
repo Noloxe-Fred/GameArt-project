@@ -75,11 +75,15 @@ export default {
       userLinks: [
         {
           title: "Profil",
-          to: "/profil",
+          to: "/user/profile",
         },
         {
           title: "Bibliothèque",
-          to: "/bibliotheque",
+          to: "/user/screens",
+        },
+        {
+          title: "Ajout Screen",
+          to: "/user/upload",
         },
       ],
     }

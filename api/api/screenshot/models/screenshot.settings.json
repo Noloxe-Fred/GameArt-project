@@ -47,8 +47,8 @@
       "component": "shared-datas.like"
     },
     "game": {
-      "model": "game",
-      "via": "screenshots"
+      "via": "screenshots",
+      "model": "game"
     }
   }
 }
