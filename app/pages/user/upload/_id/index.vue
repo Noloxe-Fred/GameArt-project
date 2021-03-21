@@ -6,7 +6,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: "_id",
+  name: "GameUpload",
   async asyncData(context) {
     let gameData;
     const [data] = await context.$strapi.find('games', { rawgId: context.route.params.id});

@@ -1,22 +1,39 @@
 <template>
   <UserLayout>
-    <h2>User Upload</h2>
-    <v-form @submit.prevent="searchGame">
-      <v-text-field
-        v-model="searchValue"
-        label="Chercher un jeu"
-        placeholder="Nom..."
-      />
-    </v-form>
-    <div class="game-list" v-if="gamesList">
-        <v-card v-for="item in gamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
-          <v-img
-            width="250"
-            :src="item.image_url"
+    <h1>Gestion de ma Screenthèque</h1>
+    <div class="screen_management_page">
+      <section class="screen_management_page__section screen_management_page__section__own">
+        <h2>Mes jeux</h2>
+        <div class="game-list">
+          <p v-if="!userGamesList.length">Vous n'avez pas encore de screenshots. Commencez à en ajouter maintenant en cherchant un jeu >>></p>
+          <v-card v-for="item in userGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
+            <v-img
+              width="250"
+              :src="item.image_url"
+            />
+            <v-card-title>{{ item.name }}</v-card-title>
+          </v-card>
+        </div>
+      </section>
+      <section class="screen_management_page__section screen_management_page__section__search">
+        <h2>Chercher un autre jeu</h2>
+        <v-form @submit.prevent="searchGame">
+          <v-text-field
+            v-model="searchValue"
+            label="Nom"
           />
-          <v-card-title>{{ item.name }}</v-card-title>
-        </v-card>
-      </div>
+        </v-form>
+        <div class="game-list" v-if="searchedGamesList">
+          <v-card v-for="item in searchedGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
+            <v-img
+              width="250"
+              :src="item.image_url"
+            />
+            <v-card-title>{{ item.name }}</v-card-title>
+          </v-card>
+        </div>
+      </section>
+    </div>
   </UserLayout>
 </template>
 
@@ -29,15 +46,22 @@ name: "Upload",
   components: {
     UserLayout,
   },
+  async asyncData(context) {
+    const userGamesList = context.$strapi.user.games;
+    return {
+      userGamesList,
+    }
+  },
   data() {
     return {
       searchValue: '',
-      gamesList: null,
+      searchedGamesList: null,
+      userGamesList: [],
     }
   },
   methods: {
-    setGamesList(value) {
-      this.gamesList = value;
+    setSearchedGamesList(value) {
+      this.searchedGamesList = value;
     },
     async searchGame() {
       const { results } = await this.$axios.$get('https://api.rawg.io/api/games?search=' + this.searchValue);
@@ -46,7 +70,7 @@ name: "Upload",
         name,
         image_url: background_image,
       }));
-      this.setGamesList(games);
+      this.setSearchedGamesList(games);
     },
     async goToUpload(id) {
       this.$router.push({ path: `/user/upload/${id}` })
@@ -56,6 +80,12 @@ name: "Upload",
 </script>
 
 <style lang="scss" scoped>
+.screen_management_page {
+  display: flex;
+  &__section {
+    width: 45%;
+  }
+}
 .game-list {
   display: flex;
   flex-wrap: wrap;
@@ -64,7 +94,7 @@ name: "Upload",
     margin: 20px;
     width: 200px;
     &:hover {
-      width: 250px;
+      opacity: .6;
       transition: .5s;
     }
   }

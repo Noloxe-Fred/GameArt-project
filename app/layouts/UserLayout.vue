@@ -1,6 +1,5 @@
 <template>
   <main>
-    <h1>USER LAYOUT</h1>
     <slot />
   </main>
 </template>
