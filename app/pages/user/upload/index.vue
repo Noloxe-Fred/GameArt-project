@@ -9,7 +9,7 @@
           <v-card v-for="item in userGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
             <v-img
               width="250"
-              :src="item.image_url"
+              :src="item.imageUrl"
             />
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
@@ -27,7 +27,7 @@
           <v-card v-for="item in searchedGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
             <v-img
               width="250"
-              :src="item.image_url"
+              :src="item.imageUrl"
             />
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
@@ -68,7 +68,7 @@ name: "Upload",
       const games = results.map(({ id, name, background_image }) => ({
         id,
         name,
-        image_url: background_image,
+        imageUrl: background_image,
       }));
       this.setSearchedGamesList(games);
     },

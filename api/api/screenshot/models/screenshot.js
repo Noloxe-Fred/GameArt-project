@@ -8,7 +8,7 @@
 module.exports = {
   lifecycles: {
     async afterCreate(result) {
-      await strapi.plugins['users-permissions'].user.service.user.edit({ id: result.user }, { game: result.game })
+      await strapi.plugins['users-permissions'].services.user.edit({ id: result.user }, { games: [result.game.id] })
     }
   }
 };

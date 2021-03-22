@@ -16,15 +16,6 @@
       "required": true,
       "unique": true
     },
-    "cover_url": {
-      "model": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false
-    },
     "screenshots": {
       "collection": "screenshot",
       "via": "game"
@@ -33,6 +24,10 @@
       "type": "uid",
       "required": true,
       "private": false
+    },
+    "imageUrl": {
+      "type": "string",
+      "unique": false
     }
   }
 }

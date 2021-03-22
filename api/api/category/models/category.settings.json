@@ -11,19 +11,6 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "Art",
-        "PixelArt",
-        "Win",
-        "Epic",
-        "Fail",
-        "Bug",
-        "Lol"
-      ],
-      "required": true
-    },
     "cover": {
       "model": "file",
       "via": "related",
@@ -34,8 +21,13 @@
       "required": false
     },
     "screenshots": {
-      "via": "categories",
-      "collection": "screenshot"
+      "collection": "screenshot",
+      "via": "categories"
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }
