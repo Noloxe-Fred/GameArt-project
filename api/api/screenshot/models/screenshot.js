@@ -5,4 +5,12 @@
  * to customize this model
  */
 
-module.exports = {};
+module.exports = {
+  lifecycles: {
+    async afterCreate(result) {
+      if (!result.user.games.map((gameId) => gameId.toString()).includes(result.game.id.toString())) {
+        await strapi.plugins['users-permissions'].services.user.edit({ id: result.user }, { games: [ ...result.user.games, result.game.id ] })
+      }
+    }
+  }
+};

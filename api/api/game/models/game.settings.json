@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "games",
   "info": {
-    "name": "Game"
+    "name": "Game",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -10,23 +11,23 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "title": {
+    "name": {
       "type": "string",
       "required": true,
       "unique": true
     },
-    "cover": {
-      "model": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false
-    },
     "screenshots": {
       "via": "game",
       "collection": "screenshot"
+    },
+    "rawgId": {
+      "type": "uid",
+      "required": true,
+      "private": false
+    },
+    "imageUrl": {
+      "type": "string",
+      "unique": false
     }
   }
 }

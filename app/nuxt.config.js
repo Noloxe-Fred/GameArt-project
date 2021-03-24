@@ -35,7 +35,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/strapi"],
+  modules: ["@nuxtjs/strapi", '@nuxtjs/axios'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -58,7 +58,6 @@ export default {
 
   strapi: {
     entities: ["screenshots", "categories", "comments", "games", "users"],
-    // @todo add env url
     url: "http://localhost:1337",
   },
 

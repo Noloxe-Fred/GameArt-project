@@ -66,6 +66,9 @@
     "comments": {
       "via": "author",
       "collection": "comment"
+    },
+    "games": {
+      "collection": "game"
     }
   }
 }

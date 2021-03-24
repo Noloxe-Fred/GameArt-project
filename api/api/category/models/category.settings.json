@@ -8,22 +8,9 @@
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "attributes": {
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "Art",
-        "PixelArt",
-        "Win",
-        "Epic",
-        "Fail",
-        "Bug",
-        "Lol"
-      ],
-      "required": true
-    },
     "cover": {
       "model": "file",
       "via": "related",
@@ -36,6 +23,11 @@
     "screenshots": {
       "via": "categories",
       "collection": "screenshot"
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }
