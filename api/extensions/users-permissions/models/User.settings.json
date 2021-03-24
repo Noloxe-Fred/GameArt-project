@@ -60,12 +60,12 @@
       "configurable": false
     },
     "screenshots": {
-      "collection": "screenshot",
-      "via": "user"
+      "via": "user",
+      "collection": "screenshot"
     },
     "comments": {
-      "collection": "comment",
-      "via": "author"
+      "via": "author",
+      "collection": "comment"
     },
     "games": {
       "collection": "game"

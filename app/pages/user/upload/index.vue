@@ -6,7 +6,7 @@
         <h2>Mes jeux</h2>
         <div class="game-list">
           <p v-if="!userGamesList.length">Vous n'avez pas encore de screenshots. Commencez à en ajouter maintenant en cherchant un jeu >>></p>
-          <v-card v-for="item in userGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
+          <v-card v-for="item in userGamesList" class="game-list__game-card" @click="goToUpload(item.rawgId)" :key="item.id">
             <v-img
               width="250"
               :src="item.imageUrl"
@@ -15,6 +15,7 @@
           </v-card>
         </div>
       </section>
+      <v-divider vertical></v-divider>
       <section class="screen_management_page__section screen_management_page__section__search">
         <h2>Chercher un autre jeu</h2>
         <v-form @submit.prevent="searchGame">
@@ -47,7 +48,14 @@ name: "Upload",
     UserLayout,
   },
   async asyncData(context) {
-    const userGamesList = context.$strapi.user.games;
+    let userGamesList = context.$strapi.user.games;
+    if (userGamesList.length) {
+      if (typeof userGamesList[0] === 'string') {
+        userGamesList = await Promise.all(userGamesList.map(async (gameId) => {
+          return context.$strapi.findOne('games', gameId);
+        }))
+      }
+    }
     return {
       userGamesList,
     }
@@ -84,6 +92,7 @@ name: "Upload",
   display: flex;
   &__section {
     width: 45%;
+    padding: 20px;
   }
 }
 .game-list {

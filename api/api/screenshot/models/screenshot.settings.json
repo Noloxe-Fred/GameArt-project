@@ -8,7 +8,7 @@
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "attributes": {
     "picture": {
@@ -28,13 +28,13 @@
       "type": "string"
     },
     "user": {
-      "via": "screenshots",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "screenshots"
     },
     "categories": {
-      "via": "screenshots",
       "collection": "category",
+      "via": "screenshots",
       "dominant": true
     },
     "comment": {
@@ -47,8 +47,8 @@
       "component": "shared-datas.like"
     },
     "game": {
-      "via": "screenshots",
-      "model": "game"
+      "model": "game",
+      "via": "screenshots"
     }
   }
 }

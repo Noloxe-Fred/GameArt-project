@@ -33,24 +33,30 @@ export default Vue.extend({
     'game'
   ],
   data() {
-    return {
-      title: '',
-      subtitle: '',
-      categories: [],
-      selectedCategories: [],
-      file: null,
-    }
+    return this.initialState();
   },
   async fetch() {
     this.categories = await this.$strapi.find('categories');
   },
   methods: {
+    initialState() {
+      return {
+        title: '',
+        subtitle: '',
+        categories: [],
+        selectedCategories: [],
+        file: null,
+      }
+    },
+    reset() {
+      Object.assign(this.$data, this.initialState());
+    },
     toggleCard() {
       this.$emit('toggle');
     },
     async submitScreen() {
       const formData = new FormData();
-      formData.append(`files`, this.file, this.file.name);
+      formData.append(`files`, this.file, `${this.file.name}.${Date.now()}.${this.$strapi.user.username}`);
       const [file] = await this.$http.$post('http://localhost:1337/upload', formData);
       const screenDatas = {
         title: this.title,
@@ -60,8 +66,9 @@ export default Vue.extend({
         game: this.game.id,
         picture: file.id,
       };
-      const screenshot = await this.$strapi.create('screenshots', screenDatas);
-      //@todo clear the form and display screens
+      await this.$strapi.create('screenshots', screenDatas);
+      this.reset();
+      this.$emit('toggle');
     }
   }
 })

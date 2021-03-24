@@ -17,8 +17,8 @@
       "unique": true
     },
     "screenshots": {
-      "collection": "screenshot",
-      "via": "game"
+      "via": "game",
+      "collection": "screenshot"
     },
     "rawgId": {
       "type": "uid",
