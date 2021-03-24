@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-dialog v-model="fullSize" @click:outside="toggleFullSize">
-      <v-img contain max-height="90vh" :src="`http://localhost:1337${screenData.picture.url}`"></v-img>
+      <v-img contain max-height="90vh" :src="`${getStrapiUrl()}${screenData.picture.url}`"></v-img>
     </v-dialog>
     <v-card class="screen-card" @click="toggleFullSize">
-      <v-img :src="`http://localhost:1337${screenData.picture.url}`"></v-img>
+      <v-img :src="`${getStrapiUrl()}${screenData.picture.url}`"></v-img>
     </v-card>
   </div>
 </template>
@@ -23,6 +23,9 @@ export default Vue.extend({
   methods: {
     toggleFullSize() {
       this.fullSize = !this.fullSize;
+    },
+    getStrapiUrl() {
+      return this.$strapi.options.url;
     }
   }
 })

@@ -57,7 +57,7 @@ export default Vue.extend({
     async submitScreen() {
       const formData = new FormData();
       formData.append(`files`, this.file, `${this.file.name}.${Date.now()}.${this.$strapi.user.username}`);
-      const [file] = await this.$http.$post('http://localhost:1337/upload', formData);
+      const [file] = await this.$http.$post(`${this.$strapi.options.url}/upload`, formData);
       const screenDatas = {
         title: this.title,
         subtitle: this.subtitle,

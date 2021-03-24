@@ -1,8 +1,8 @@
 <template>
   <UserLayout>
     <h1>Gestion de ma Screenthèque</h1>
-    <div class="screen_management_page">
-      <section class="screen_management_page__section screen_management_page__section__own">
+    <v-row class="screen_management_page">
+      <v-col md="8" class="screen_management_page__section screen_management_page__section__own">
         <h2>Mes jeux</h2>
         <div class="game-list">
           <p v-if="!userGamesList.length">Vous n'avez pas encore de screenshots. Commencez à en ajouter maintenant en cherchant un jeu >>></p>
@@ -14,10 +14,10 @@
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
         </div>
-      </section>
+      </v-col>
       <v-divider vertical></v-divider>
-      <section class="screen_management_page__section screen_management_page__section__search">
-        <h2>Chercher un autre jeu</h2>
+      <v-col class="screen_management_page__section screen_management_page__section__search">
+        <h2>Ajouter un autre jeu</h2>
         <v-form @submit.prevent="searchGame">
           <v-text-field
             v-model="searchValue"
@@ -33,8 +33,8 @@
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
         </div>
-      </section>
-    </div>
+      </v-col>
+    </v-row>
   </UserLayout>
 </template>
 
@@ -89,7 +89,6 @@ name: "Upload",
 
 <style lang="scss" scoped>
 .screen_management_page {
-  display: flex;
   &__section {
     width: 45%;
     padding: 20px;
