@@ -68,6 +68,7 @@ export default Vue.extend({
       };
       await this.$strapi.create('screenshots', screenDatas);
       this.reset();
+      this.$emit('refetchScreens');
       this.$emit('toggle');
     }
   }

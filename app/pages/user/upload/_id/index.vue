@@ -2,12 +2,12 @@
   <div>
     <h1>{{ gameData.name }}</h1>
     <v-btn @click="toggleUploadCard">Ajouter un screen</v-btn>
-    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard"/>
+    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refetchScreens="refetchUserScreens" />
     <section>
       <h2>Mes screens</h2>
       <v-row>
         <v-col md="4" v-for="item in userScreens">
-          <screen-card :screenData="item" />
+          <screen-card-user :screenData="item" />
         </v-col>
       </v-row>
     </section>
@@ -17,13 +17,13 @@
 <script>
 import Vue from 'vue';
 import UploadCard from "../../../../components/Screenshot/UploadCard";
-import ScreenCard from "../../../../components/Screenshot/ScreenCard";
+import ScreenCardUser from "../../../../components/Screenshot/ScreenCardUser";
 
 export default Vue.extend({
   name: "GameUpload",
   components: {
     UploadCard,
-    ScreenCard,
+    ScreenCardUser,
   },
   async asyncData(context) {
     let gameData;
@@ -55,7 +55,13 @@ export default Vue.extend({
   methods: {
     toggleUploadCard() {
       this.activeUploadCard = !this.activeUploadCard;
-    }
+    },
+    async refetchUserScreens() {
+      this.userScreens = await this.$strapi.find('screenshots', {
+        user: this.$strapi.user.id,
+        game: this.gameData.id
+      });
+    },
   }
 })
 </script>
