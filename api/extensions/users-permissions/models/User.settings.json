@@ -60,15 +60,24 @@
       "configurable": false
     },
     "screenshots": {
-      "via": "user",
-      "collection": "screenshot"
+      "collection": "screenshot",
+      "via": "user"
     },
     "comments": {
-      "via": "author",
-      "collection": "comment"
+      "collection": "comment",
+      "via": "author"
     },
     "games": {
       "collection": "game"
+    },
+    "avatar": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }

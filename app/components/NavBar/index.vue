@@ -16,7 +16,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          V
+          {{ userName }}
         </v-btn>
       </template>
       <v-list>
@@ -93,8 +93,8 @@ export default {
       return this.$strapi.user?.confirmed
     },
     userName() {
-      const { user } = this.$strapi
-      return `${user.firstName} ${user.lastName}`
+      const { username } = this.$strapi.user
+      return username;
     },
   },
   methods: {
