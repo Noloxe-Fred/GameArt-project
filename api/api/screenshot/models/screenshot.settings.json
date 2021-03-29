@@ -28,9 +28,9 @@
       "type": "string"
     },
     "user": {
+      "via": "screenshots",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "screenshots"
+      "model": "user"
     },
     "categories": {
       "collection": "category",
