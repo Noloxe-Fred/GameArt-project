@@ -21,6 +21,7 @@ import ScreenCardUser from "../../../../components/Screenshot/ScreenCardUser";
 
 export default Vue.extend({
   name: "GameUpload",
+  middleware: 'authenticated',
   components: {
     UploadCard,
     ScreenCardUser,
