@@ -1,0 +1,19 @@
+.stylised-letter {
+  font-family: Jura, sans-serif;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  color: $mainFontColor;
+}
+
+.main-background {
+  background-color: $mainAppColor;
+}
+
+.second-background {
+  background-color: $secondAppColor !important;
+}
+
+.main-btn {
+  border-color: $mainAppColor;
+  margin: 5px;
+}
