@@ -26,6 +26,11 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: "ResetPass",
+  middleware({ from, redirect }) {
+    if (!from.query.code) {
+      return redirect('/')
+    }
+  },
   data() {
     return {
       valid: false,

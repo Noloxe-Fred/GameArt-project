@@ -43,7 +43,8 @@ import Vue from "vue";
 import UserLayout from "../../../layouts/UserLayout"
 
 export default Vue.extend({
-name: "Upload",
+  name: "Upload",
+  middleware: 'authenticated',
   components: {
     UserLayout,
   },
