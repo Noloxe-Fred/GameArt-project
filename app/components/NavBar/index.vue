@@ -1,8 +1,9 @@
 <template>
   <v-app-bar dense class="second-background" fixed app>
-    <div v-for="(item, index) in menuLinks" :key="index">
-      <v-btn :key="index" :to="item.to" class="stylised-letter main-btn" text>{{ item.title }}</v-btn>
-    </div>
+    <v-tabs>
+      <v-tabs-slider class="navbar__main-menu__slider"></v-tabs-slider>
+      <v-tab v-for="(item, index) in menuLinks" :key="index" :to="item.to" class="stylised-letter main-btn">{{ item.title }}</v-tab>
+    </v-tabs>
     <v-spacer />
     <v-menu v-if="isAuthenticated" offset-y>
       <template #activator="{ on, attrs }">
@@ -109,6 +110,11 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
+  &__main-menu {
+    &__slider {
+      color: $mainFontColor;
+    }
+  }
   &__login-menu {
     position: absolute;
     right: 0;
@@ -120,7 +126,7 @@ export default {
   }
   &__menu-list {
     min-width: 250px;
-    background: linear-gradient($secondAppColor, 90%, transparent);
+    background: linear-gradient($secondAppColor, 98%, transparent);
     color: $mainFontColor;
   }
 }
