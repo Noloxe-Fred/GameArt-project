@@ -1,25 +1,22 @@
 <template>
-  <v-app-bar fixed app>
-    <v-btn to="/" elevation="24" large> LOGO </v-btn>
-    <div v-for="(item, index) in menuLinks" :key="index">
-      <v-btn :key="index" :to="item.to" text>{{ item.title }}</v-btn>
-    </div>
+  <v-app-bar dense class="second-background" fixed app>
+    <v-tabs>
+      <v-tabs-slider class="navbar__main-menu__slider"></v-tabs-slider>
+      <v-tab v-for="(item, index) in menuLinks" :key="index" :to="item.to" class="stylised-letter main-btn">{{ item.title }}</v-tab>
+    </v-tabs>
     <v-spacer />
     <v-menu v-if="isAuthenticated" offset-y>
       <template #activator="{ on, attrs }">
         <v-btn
-          class="mx-2"
+          class="mx-2 stylised-letter"
           text
-          fab
-          dark
-          color="indigo"
           v-bind="attrs"
           v-on="on"
         >
           {{ userName }}
         </v-btn>
       </template>
-      <v-list>
+      <v-list class="navbar__menu-list" >
         <v-list-item v-for="(item, index) in userLinks" :key="index">
           <v-btn text :to="item.to">{{ item.title }}</v-btn>
         </v-list-item>
@@ -31,8 +28,7 @@
     <div v-else v-click-outside="onClickOutside" class="navbar__login-menu">
       <v-btn
         text
-        color="indigo"
-        class="navbar__login-menu__expand-btn"
+        class="navbar__login-menu__expand-btn stylised-letter"
         @click="expandLogin = !expandLogin"
       >
         Login
@@ -59,6 +55,10 @@ export default {
     return {
       expandLogin: false,
       menuLinks: [
+        {
+          title: "Home",
+          to: "/",
+        },
         {
           title: "Categories",
           to: "/categories",
@@ -110,13 +110,24 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
+  &__main-menu {
+    &__slider {
+      color: $mainFontColor;
+    }
+  }
   &__login-menu {
-    position: relative;
+    position: absolute;
+    right: 0;
     &__expand {
       position: absolute;
-      top: 50px;
+      top: 40px;
       right: 0;
     }
+  }
+  &__menu-list {
+    min-width: 250px;
+    background: linear-gradient($secondAppColor, 98%, transparent);
+    color: $mainFontColor;
   }
 }
 </style>

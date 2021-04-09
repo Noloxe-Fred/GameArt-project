@@ -4,7 +4,7 @@
       <v-img contain max-height="90vh" :src="`${getStrapiUrl}${screenData.picture.url}`"></v-img>
     </v-dialog>
     <v-hover v-slot="{ hover }">
-      <v-card class="screen-card" @click="toggleFullSize">
+      <v-card class="screen-card" @click="toggleFullSize" elevation="20">
         <v-img :src="`${getStrapiUrl}${screenData.picture.url}`">
           <v-expand-transition>
             <h2
@@ -52,5 +52,9 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .screen-card {
   margin: 20px;
+  transition: margin .3s;
+  &:hover {
+    margin: 6px;
+  }
 }
 </style>
