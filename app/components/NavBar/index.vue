@@ -28,6 +28,7 @@
     <div v-else v-click-outside="onClickOutside" class="navbar__login-menu">
       <v-btn
         text
+        outlined
         class="navbar__login-menu__expand-btn stylised-letter"
         @click="expandLogin = !expandLogin"
       >
@@ -117,7 +118,7 @@ export default {
   }
   &__login-menu {
     position: absolute;
-    right: 0;
+    right: 10px;
     &__expand {
       position: absolute;
       top: 40px;
