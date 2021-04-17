@@ -5,44 +5,53 @@
       <v-btn class="categories-menu__item stylised-letter" :outlined="category.id == selectedCategory" elevation="5" @click="changeCategory(category.id)">{{category.type}}</v-btn>
     </div>
   </v-row>
-    <v-row>
-    <v-col md="4" v-for="screen in screenshotsCategory" :key="screen.id">
-      <screen-card-public :screenData="screen" />
-    </v-col>
-  </v-row>
+  <MainGallery :screensList="screenshotsCategory" :loadMore="loadMore"/>
 </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import ScreenCardPublic from "../../components/Screenshot/ScreenCardPublic";
+import MainGallery from "../../components/Screenshot/MainGallery";
 
 
 export default Vue.extend({
   name: 'CategoriesPage',
   components: {
-    ScreenCardPublic,
+    MainGallery,
   },
   async asyncData(context) {
     const categories = await context.$strapi.find('categories');
     const initPageCategory = categories[0].id;
-    const initPageScreenshots = await context.$strapi.find('screenshots', { categories: initPageCategory, _sort: 'createdAt:desc' });
-   
+    const count = await context.$strapi.count('screenshots', { categories: initPageCategory });
+    const initPageScreenshots = await context.$strapi.find('screenshots', { categories: initPageCategory, _sort: 'createdAt:desc', _start: 0, _limit: 10 });
+    console.log(count, initPageScreenshots.length)
     return {
       categories,
       selectedCategory: initPageCategory,
       screenshotsCategory: initPageScreenshots,
+      count,
     }
   },
   data() {
     return {
       screenshotsCategory: [],
+      count: null,
     }
   },
   methods: {
+    async getScreensList(categoryId, start) {
+      return this.$strapi.find('screenshots', { categories: categoryId, _start: start, _limit: 10, _sort: 'createdAt:desc' })
+    },
     async changeCategory(id) {
       this.selectedCategory = id;
-      this.screenshotsCategory = await this.$strapi.find('screenshots', { categories: id, _sort: 'createdAt:desc' });
+      this.screenshotsCategory = await this.getScreensList(id, 0);
+    },
+    async loadMore(start) {
+      if (this.screenshotsCategory.length >= this.count) {
+        return;
+      }
+      const newScreens = await getScreensList(this.selectedCategory, start);
+      this.screenshotsCategory.push(...newScreens);
     }
   }
 })
