@@ -5,7 +5,7 @@
       <v-btn class="categories-menu__item stylised-letter" :outlined="category.id == selectedCategory" elevation="5" @click="changeCategory(category.id)">{{category.type}}</v-btn>
     </div>
   </v-row>
-  <MainGallery :screensList="screenshotsCategory" :loadMore="loadMore"/>
+  <MainGallery :screensList="screenshotsCategory" :loadMore="loadMore" />
 </div>
 </template>
 
@@ -50,7 +50,7 @@ export default Vue.extend({
       if (this.screenshotsCategory.length >= this.count) {
         return;
       }
-      const newScreens = await getScreensList(this.selectedCategory, start);
+      const newScreens = await this.getScreensList(this.selectedCategory, start);
       this.screenshotsCategory.push(...newScreens);
     }
   }
