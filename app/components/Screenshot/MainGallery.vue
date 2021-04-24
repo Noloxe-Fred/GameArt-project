@@ -1,23 +1,20 @@
 <template>
   <v-row>
     <v-col md="4" v-for="item in screensList" :key="item.id">
-      <screen-card-user v-if="isAuthor(item.user.id)" :screenData="item" />
-      <screen-card-public v-else :screenData="item" />
+      <screen-card-basic :screenData="item" />
     </v-col>
   </v-row>
 </template>
 
 <script>
 import Vue from 'vue';
-import ScreenCardPublic from "./ScreenCardPublic";
-import ScreenCardUser from './ScreenCardUser';
+import ScreenCardBasic from "./ScreenCardBasic";
 
 export default Vue.extend({
   name: 'MainGallery',
   props: ['screensList', 'loadMore'],
   components: {
-    ScreenCardPublic,
-    ScreenCardUser
+    ScreenCardBasic,
   },
   data() {
     return {
@@ -43,9 +40,6 @@ export default Vue.extend({
       this.loadMore(this.start);
       this.increaseStart;
     },
-    isAuthor(id) {
-      return this.$strapi.user && id === this.$strapi.user.id
-    }
   },
   mounted() {
     this.scroll();
