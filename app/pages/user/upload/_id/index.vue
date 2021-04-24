@@ -2,14 +2,10 @@
   <div>
     <h1>{{ gameData.name }}</h1>
     <v-btn @click="toggleUploadCard">Ajouter un screen</v-btn>
-    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refetchScreens="refetchUserScreens" />
+    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refreshList="refreshUserScreens" />
     <section>
       <h2>Mes screens</h2>
-      <v-row>
-        <v-col md="4" v-for="item in userScreens">
-          <screen-card-user :screenData="item" />
-        </v-col>
-      </v-row>
+      <MainGallery :screensList="userScreens" :loadMore="loadMore" />
     </section>
   </div>
 </template>
@@ -33,17 +29,24 @@ export default Vue.extend({
       gameData = data;
     } else {
       const result = await context.$axios.$get('https://api.rawg.io/api/games/' + context.route.params.id);
-      console.log(result)
       const createData = { rawgId: result.id.toString(), name: result.name, imageUrl: result.background_image };
       gameData = await context.$strapi.create('games', createData)
     }
+    const count = await context.$strapi.count('screenshots', {
+      user: context.$strapi.user.id,
+      game: gameData.id,
+    })
     const userScreens = await context.$strapi.find('screenshots', {
       user: context.$strapi.user.id,
-      game: gameData.id
+      game: gameData.id,
+      _start: 0,
+      _limit: 10,
+      _sort: 'createdAt:desc'
     })
     return {
       gameData,
       userScreens,
+      count
     }
   },
   data() {
@@ -51,18 +54,28 @@ export default Vue.extend({
       gameData: {},
       activeUploadCard: false,
       userScreens: [],
+      count: null,
     }
   },
   methods: {
     toggleUploadCard() {
       this.activeUploadCard = !this.activeUploadCard;
     },
-    async refetchUserScreens() {
-      this.userScreens = await this.$strapi.find('screenshots', {
-        user: this.$strapi.user.id,
-        game: this.gameData.id
-      });
+    async refreshUserScreens({ newScreen }) {
+      this.userScreens.unshift(newScreen);
     },
+    async loadMore(start) {
+      if (this.userScreens.length >= this.count) {
+        return;
+      }
+      const newScreens = await this.$strapi.find('screenshots', {
+        user: this.$strapi.user.id,
+        game: this.gameData.id,
+        _start: start,
+        _limit: 10,
+      });
+      this.userScreens.push(...newScreens);
+    }
   }
 })
 </script>

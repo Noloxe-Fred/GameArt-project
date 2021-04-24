@@ -66,9 +66,9 @@ export default Vue.extend({
         game: this.game.id,
         picture: file.id,
       };
-      await this.$strapi.create('screenshots', screenDatas);
+      const newScreen = await this.$strapi.create('screenshots', screenDatas);
       this.reset();
-      this.$emit('refetchScreens');
+      this.$emit('refreshList', { newScreen });
       this.$emit('toggle');
     }
   }
