@@ -4,7 +4,6 @@
     <v-btn @click="toggleUploadCard">Ajouter un screen</v-btn>
     <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refreshList="refreshUserScreens" />
     <section>
-      <h2>Mes screens</h2>
       <MainGallery :screensList="userScreens" :loadMore="loadMore" />
     </section>
   </div>
@@ -13,14 +12,14 @@
 <script>
 import Vue from 'vue';
 import UploadCard from "../../../../components/Screenshot/UploadCard";
-import ScreenCardUser from "../../../../components/Screenshot/ScreenCardUser";
+import MainGallery from "../../../../components/Screenshot/MainGallery";
 
 export default Vue.extend({
   name: "GameUpload",
   middleware: 'authenticated',
   components: {
     UploadCard,
-    ScreenCardUser,
+    MainGallery,
   },
   async asyncData(context) {
     let gameData;
