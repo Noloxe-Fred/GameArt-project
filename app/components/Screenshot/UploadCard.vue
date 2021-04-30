@@ -5,7 +5,7 @@
         :src="game.imageUrl"
         class="upload-screen-dialog__img"
       ></v-img>
-      <v-form @submit.prevent="submitScreen">
+      <v-form @submit.prevent="type === 'create' ? submitScreen : editScreen">
         <v-text-field v-model="title" required label="Titre"></v-text-field>
         <v-text-field v-model="subtitle" label="Légende"></v-text-field>
         <v-select
@@ -16,8 +16,8 @@
           label="Catégories"
           multiple
         />
-        <v-file-input v-model="file" label="Votre Screen"></v-file-input>
-        <v-btn type="submit">Envoyer</v-btn>
+        <v-file-input v-if="type === 'create'" v-model="file" label="Votre Screen"></v-file-input>
+        <v-btn type="submit">{{ type === 'create' ? 'Envoyer' : 'Modifier' }}</v-btn>
       </v-form>
     </v-card>
   </v-dialog>
@@ -30,7 +30,9 @@ export default Vue.extend({
   name: "UploadCard",
   props: [
     'isActive',
-    'game'
+    'game',
+    'type',
+    'editDatas'
   ],
   data() {
     return this.initialState();
@@ -40,6 +42,9 @@ export default Vue.extend({
   },
   methods: {
     initialState() {
+      if (this.type === 'edit') {
+        return { ...this.editDatas, selectedCategories: this.editDatas.categories.map((c) => c.id)};
+      }
       return {
         title: '',
         subtitle: '',
@@ -70,6 +75,9 @@ export default Vue.extend({
       this.reset();
       this.$emit('refreshList', { newScreen });
       this.$emit('toggle');
+    },
+    async editScreen() {
+
     }
   }
 })

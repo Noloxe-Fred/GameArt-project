@@ -17,7 +17,7 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col class="screen_management_page__section screen_management_page__section__search">
-        <h2>Ajouter un autre jeu</h2>
+        <h2>Ajouter un autre jeu à ma collection</h2>
         <v-form @submit.prevent="searchGame">
           <v-text-field
             v-model="searchValue"

@@ -1,7 +1,25 @@
 <template>
   <div>
-    <v-dialog v-model="fullSize" @click:outside="toggleFullSize" :width="getDialogWidth">
-      <v-img contain max-height="100vh" :src="`${getStrapiUrl}${screenData.picture.url}`"></v-img>
+    <v-dialog fullscreen v-model="fullSize" @click:outside="toggleFullSize">
+      <v-row class="fullscreen-img" >
+        <v-col sm="10" class="fixed">
+          <v-img contain :src="`${getStrapiUrl}${screenData.picture.url}`"></v-img>
+        </v-col>
+        <v-col sm="2">
+          <v-btn text @click="toggleFullSize" >Fermer</v-btn>
+          <div class="fullscreen-img__information" >
+            <h2 class="stylised-letter">{{ screenData.game.name }}</h2>
+            <p>{{screenData.title}}</p>
+            <p>{{ screenData.user.username }}</p>
+          </div>
+          <div v-if="isAuthor">
+            <UploadCard :is-active="editScreen" :game="screenData.game" @toggle="toggleEditScreen" @refreshList="refreshUserScreens" :editDatas="screenData" type="edit" />
+            <v-btn @click="toggleEditScreen">Editer</v-btn>
+            <v-btn>Supprimer</v-btn>
+          </div>
+
+        </v-col>
+      </v-row>
     </v-dialog>
     <v-hover v-slot="{ hover }">
       <v-card class="screen-card" @click="toggleFullSize" elevation="20">
@@ -12,7 +30,11 @@
               class="screen-card__information"
             >
               <h2 class="stylised-letter">{{ screenData.game.name }}</h2>
-              <p>{{screenData.title}} | {{ screenData.user.username }}</p>
+              <v-container>
+                <v-row class="screen-card__information__author-data">
+                  <p class="screen-card__information__author-data__title">{{screenData.title}} | {{ screenData.user.username }}</p>
+                </v-row>
+              </v-container>
             </div>
           </v-expand-transition>
         </v-img>
@@ -30,16 +52,16 @@ export default Vue.extend({
   data() {
     return {
       fullSize: false,
+      editScreen: false,
     }
   },
   computed: {
-
     getStrapiUrl() {
       return this.$strapi.options.url;
     },
     getDialogWidth() {
       const { width } = this.screenData.picture;
-      const maxWidth = 1520;
+      const maxWidth = '80vw';
       return width < maxWidth ? width : maxWidth;
     }
   },
@@ -47,6 +69,12 @@ export default Vue.extend({
     toggleFullSize() {
       this.fullSize = !this.fullSize;
     },
+    isAuthor(screenId) {
+      return this.$strapi.user && screenId === this.$strapi.user.id;
+    },
+    toggleEditScreen() {
+      this.editScreen = !this.editScreen
+    }
   }
 })
 </script>
@@ -63,6 +91,21 @@ export default Vue.extend({
     background-color: $secondAppColor;
     opacity: .8;
     height: 80px;
+    &__author-data {
+      align-items: center;
+      &__title {
+        margin-bottom: 0;
+      }
+    }
   }
+}
+
+.fullscreen-img {
+    background-color: $mainAppColor;
+    height: 100%;
+    width: 100%;
+    &__information {
+      padding: 5px;
+    }
 }
 </style>

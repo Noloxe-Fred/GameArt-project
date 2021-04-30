@@ -2,7 +2,7 @@
   <div>
     <h1>{{ gameData.name }}</h1>
     <v-btn @click="toggleUploadCard">Ajouter un screen</v-btn>
-    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refreshList="refreshUserScreens" />
+    <UploadCard :is-active="activeUploadCard" :game="gameData" @toggle="toggleUploadCard" @refreshList="refreshUserScreens" type="create" />
     <section>
       <MainGallery :screensList="userScreens" :loadMore="loadMore" />
     </section>
