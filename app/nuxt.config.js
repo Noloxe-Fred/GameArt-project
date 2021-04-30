@@ -20,15 +20,15 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
-        href: 'https://fonts.googleapis.com/css2?family=Jura&display=swap'
-      }
-      ],
+        href: "https://fonts.googleapis.com/css2?family=Jura&display=swap",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['./assets/css/global.scss'],
+  css: ["./assets/css/global.scss"],
   styleResources: {
-    scss: './assets/css/*.scss',
+    scss: "./assets/css/*.scss",
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,7 +44,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/strapi", '@nuxtjs/axios', '@nuxtjs/style-resources'],
+  modules: ["@nuxtjs/strapi", "@nuxtjs/axios", "@nuxtjs/style-resources"],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -68,6 +68,10 @@ export default {
   strapi: {
     entities: ["screenshots", "categories", "comments", "games", "users"],
     url: "http://localhost:1337",
+  },
+  env: {
+    rawgApiUrl: "https://api.rawg.io/api/games",
+    rawgApiKey: process.env.RAWG_API_KEY,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

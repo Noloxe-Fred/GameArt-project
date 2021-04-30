@@ -2,34 +2,43 @@
   <UserLayout>
     <h1>Gestion de ma Screenthèque</h1>
     <v-row class="screen_management_page">
-      <v-col md="8" class="screen_management_page__section screen_management_page__section__own">
+      <v-col
+        md="8"
+        class="screen_management_page__section screen_management_page__section__own"
+      >
         <h2>Mes jeux</h2>
         <div class="game-list">
-          <p v-if="!userGamesList.length">Vous n'avez pas encore de screenshots. Commencez à en ajouter maintenant en cherchant un jeu >>></p>
-          <v-card v-for="item in userGamesList" class="game-list__game-card" @click="goToUpload(item.rawgId)" :key="item.id">
-            <v-img
-              width="250"
-              :src="item.imageUrl"
-            />
+          <p v-if="!userGamesList.length">
+            Vous n'avez pas encore de screenshots. Commencez à en ajouter
+            maintenant en cherchant un jeu >>>
+          </p>
+          <v-card
+            v-for="item in userGamesList"
+            :key="item.id"
+            class="game-list__game-card"
+            @click="goToUpload(item.rawgId)"
+          >
+            <v-img width="250" :src="item.imageUrl" />
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
         </div>
       </v-col>
       <v-divider vertical></v-divider>
-      <v-col class="screen_management_page__section screen_management_page__section__search">
+      <v-col
+        class="screen_management_page__section screen_management_page__section__search"
+      >
         <h2>Ajouter un autre jeu à ma collection</h2>
         <v-form @submit.prevent="searchGame">
-          <v-text-field
-            v-model="searchValue"
-            label="Nom"
-          />
+          <v-text-field v-model="searchValue" label="Nom" />
         </v-form>
-        <div class="game-list" v-if="searchedGamesList">
-          <v-card v-for="item in searchedGamesList" class="game-list__game-card" @click="goToUpload(item.id)" :key="item.id">
-            <v-img
-              width="250"
-              :src="item.imageUrl"
-            />
+        <div v-if="searchedGamesList" class="game-list">
+          <v-card
+            v-for="item in searchedGamesList"
+            :key="item.id"
+            class="game-list__game-card"
+            @click="goToUpload(item.id)"
+          >
+            <v-img width="250" :src="item.imageUrl" />
             <v-card-title>{{ item.name }}</v-card-title>
           </v-card>
         </div>
@@ -39,22 +48,24 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from "vue"
 import UserLayout from "../../../layouts/UserLayout"
 
 export default Vue.extend({
   name: "Upload",
-  middleware: 'authenticated',
   components: {
     UserLayout,
   },
+  middleware: "authenticated",
   async asyncData(context) {
-    let userGamesList = context.$strapi.user.games;
+    let userGamesList = context.$strapi.user.games
     if (userGamesList.length) {
-      if (typeof userGamesList[0] === 'string') {
-        userGamesList = await Promise.all(userGamesList.map(async (gameId) => {
-          return context.$strapi.findOne('games', gameId);
-        }))
+      if (typeof userGamesList[0] === "string") {
+        userGamesList = await Promise.all(
+          userGamesList.map(async (gameId) => {
+            return context.$strapi.findOne("games", gameId)
+          })
+        )
       }
     }
     return {
@@ -63,27 +74,32 @@ export default Vue.extend({
   },
   data() {
     return {
-      searchValue: '',
+      searchValue: "",
       searchedGamesList: null,
       userGamesList: [],
     }
   },
   methods: {
     setSearchedGamesList(value) {
-      this.searchedGamesList = value;
+      this.searchedGamesList = value
     },
     async searchGame() {
-      const { results } = await this.$axios.$get('https://api.rawg.io/api/games?search=' + this.searchValue);
+      const { results } = await this.$axios.$get(
+        process.env.rawgApiUrl +
+          process.env.rawgApiKey +
+          "&?search=" +
+          this.searchValue
+      )
       const games = results.map(({ id, name, background_image }) => ({
         id,
         name,
         imageUrl: background_image,
-      }));
-      this.setSearchedGamesList(games);
+      }))
+      this.setSearchedGamesList(games)
     },
     async goToUpload(id) {
       this.$router.push({ path: `/user/upload/${id}` })
-    }
+    },
   },
 })
 </script>
@@ -103,8 +119,8 @@ export default Vue.extend({
     margin: 20px;
     width: 200px;
     &:hover {
-      opacity: .6;
-      transition: .5s;
+      opacity: 0.6;
+      transition: 0.5s;
     }
   }
 }
