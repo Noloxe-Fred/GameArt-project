@@ -8,6 +8,7 @@
       type="create"
       @toggle="toggleUploadCard"
       @refreshList="refreshUserScreens"
+      @updateUserScreen="updateUserScreen"
     />
     <section>
       <MainGallery :screens-list="userScreens" :load-more="loadMore" />
