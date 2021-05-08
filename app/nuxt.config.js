@@ -67,7 +67,7 @@ export default {
 
   strapi: {
     entities: ["screenshots", "categories", "comments", "games", "users"],
-    url: "http://localhost:1337",
+    url: process.env.API_URL || "http://localhost:1337",
   },
   env: {
     rawgApiUrl: "https://api.rawg.io/api/games",
