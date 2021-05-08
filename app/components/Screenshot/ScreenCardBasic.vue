@@ -87,7 +87,7 @@ export default Vue.extend({
       this.editScreen = !this.editScreen
     },
     updateScreenData({ updatedScreen }) {
-      this.$emit("udpateScreenData", { updatedScreen })
+      this.$emit("updateScreenData", { updatedScreen })
     },
   },
 })

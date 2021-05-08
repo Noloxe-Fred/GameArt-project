@@ -96,7 +96,7 @@ export default Vue.extend({
         screenDatas
       )
       this.reset()
-      this.$emit("udpateUserScreen", { updatedScreen })
+      this.$emit("updateScreenData", { updatedScreen })
       this.$emit("toggle")
     },
     submitForm() {
