@@ -1,55 +1,62 @@
 <template>
   <div>
-    <v-dialog v-model="fullSize" fullscreen @click:outside="toggleFullSize">
-      <v-row class="fullscreen-img">
-        <v-col sm="10" class="fixed">
-          <v-img
-            contain
-            :src="`${getStrapiUrl}${screenData.picture.url}`"
-          ></v-img>
-        </v-col>
-        <v-col sm="2">
-          <v-btn text @click="toggleFullSize">Fermer</v-btn>
-          <div class="fullscreen-img__information">
-            <h2 class="stylised-letter">{{ screenData.game.name }}</h2>
-            <p>{{ screenData.title }}</p>
-            <p>{{ screenData.user.username }}</p>
-          </div>
-          <div v-if="isAuthor">
-            <UploadCard
-              :is-active="editScreen"
-              :game="screenData.game"
-              :edit-datas="screenData"
-              type="edit"
-              @toggle="toggleEditScreen"
-              @updateScreenData="updateScreenData"
-              @deleteScreen="deleteScreen"
-            />
+    <v-dialog v-model="fullSize" fullscreen  @click:outside="toggleFullSize">
+      <v-card class="fullscreen-img">
+        <v-row>
+          <v-col sm="10" class="fixed">
+            <v-img
+              contain
+              max-height="95vh"
+              :src="`${getStrapiUrl}${screenData.picture.url}`"
+            ></v-img>
+          </v-col>
+          <v-col sm="2">
+            <div class="fullscreen-img__close-btn">
+              <v-icon large @click="toggleFullSize">mdi-close</v-icon>
+            </div>
+            <v-card class="fullscreen-img__information">
+              <v-card-title class="stylised-letter">{{ screenData.game.name }}</v-card-title>
+              <v-card-subtitle>{{ screenData.user.username }}</v-card-subtitle>
+              <v-divider class="mx-4"></v-divider>
+              <v-card-text>{{ screenData.title }}</v-card-text>
+              <v-divider v-if="isAuthor" class="mx-4"></v-divider>
+              <v-card-actions v-if="isAuthor" class="fullscreen-img__manage-btn">
+                <v-btn @click="toggleEditScreen">Editer</v-btn>
+                <v-btn @click="toggleDeleteConfirmation">Supprimer</v-btn>
+              </v-card-actions>
+            </v-card>
+            <div v-if="isAuthor">
+              <UploadCard
+                :is-active="editScreen"
+                :game="screenData.game"
+                :edit-datas="screenData"
+                type="edit"
+                @toggle="toggleEditScreen"
+                @updateScreenData="updateScreenData"
+                @deleteScreen="deleteScreen"
+              />
               <v-overlay
                 :value="deleteConfirmationOverlay"
               >
-              <v-card>
-                <v-btn
-                  class="white--text"
-                  color="teal"
-                  @click="toggleDeleteConfirmation"
-                >
-                  Annuler
-                </v-btn>
-                <v-btn
-                  class="white--text"
-                  color="teal"
-                  @click="deleteScreen"
-                >
-                  Confirmer
-                </v-btn>
-              </v-card>
+                <v-card>
+                  <v-btn
+                    class="white--text"
+                    @click="toggleDeleteConfirmation"
+                  >
+                    Annuler
+                  </v-btn>
+                  <v-btn
+                    class="white--text"
+                    @click="deleteScreen"
+                  >
+                    Confirmer
+                  </v-btn>
+                </v-card>
               </v-overlay>
-            <v-btn @click="toggleEditScreen">Editer</v-btn>
-            <v-btn @click="toggleDeleteConfirmation">Supprimer</v-btn>
-          </div>
-        </v-col>
-      </v-row>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-dialog>
     <v-hover v-slot="{ hover }">
       <v-card class="screen-card" elevation="20" @click="toggleFullSize">
@@ -153,10 +160,22 @@ export default Vue.extend({
 
 .fullscreen-img {
   background-color: $mainAppColor;
-  height: 100%;
+  height: 100vh;
   width: 100%;
+  padding: 15px !important;
+  &__close-btn {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+  }
   &__information {
     padding: 5px;
+  }
+  &__manage-btn {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
   }
 }
 </style>
