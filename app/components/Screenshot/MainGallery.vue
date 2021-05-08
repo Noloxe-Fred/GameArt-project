@@ -4,6 +4,7 @@
       <screen-card-basic
         :screen-data="item"
         @updateScreenData="updateScreenData"
+        @deleteScreen="deleteScreen"
       />
     </v-col>
   </v-row>
@@ -61,6 +62,9 @@ export default Vue.extend({
         return screen
       })
     },
+    deleteScreen({ id }) {
+      this.screensList = this.screensList.filter((screen) => screen.id !== id);
+    }
   },
 })
 </script>

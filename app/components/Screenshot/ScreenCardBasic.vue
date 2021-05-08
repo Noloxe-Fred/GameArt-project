@@ -23,9 +23,31 @@
               type="edit"
               @toggle="toggleEditScreen"
               @updateScreenData="updateScreenData"
+              @deleteScreen="deleteScreen"
             />
+              <v-overlay
+                :z-index="zIndex"
+                :value="deleteConfirmationOverlay"
+              >
+              <v-card>
+                <v-btn
+                  class="white--text"
+                  color="teal"
+                  @click="toggleDeleteConfirmation"
+                >
+                  Annuler
+                </v-btn>
+                <v-btn
+                  class="white--text"
+                  color="teal"
+                  @click="deleteScreen"
+                >
+                  Confirmer
+                </v-btn>
+              </v-card>
+              </v-overlay>
             <v-btn @click="toggleEditScreen">Editer</v-btn>
-            <v-btn>Supprimer</v-btn>
+            <v-btn @click="toggleDeleteConfirmation">Supprimer</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -64,6 +86,7 @@ export default Vue.extend({
     return {
       fullSize: false,
       editScreen: false,
+      deleteConfirmationOverlay: false,
     }
   },
   computed: {
@@ -86,9 +109,23 @@ export default Vue.extend({
     toggleEditScreen() {
       this.editScreen = !this.editScreen
     },
+    toggleDeleteConfirmation() {
+      this.deleteConfirmationOverlay = !this.deleteConfirmationOverlay;
+    },
     updateScreenData({ updatedScreen }) {
       this.$emit("updateScreenData", { updatedScreen })
     },
+    async deleteScreen() {
+      try {
+        await this.$strapi.delete("screenshots", this.screenData.id);
+        this.toggleFullSize();
+        this.toggleDeleteConfirmation();
+        this.$emit('deleteScreen', { id: this.screenData.id })
+      }
+      catch {
+        alert('Erreur lors de la suppression')
+      }
+    }
   },
 })
 </script>
