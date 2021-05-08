@@ -23,7 +23,11 @@
       </v-container>
     </v-form>
     <v-form v-else @submit.prevent="submitRegister">
-      <v-container center>
+      <v-card>
+        <v-card-title>BETA</v-card-title>
+        <v-card-text>GameArt est actuellement en beta. Vous pouvez naviguer et profiter des screens postés par nos utilisateurs.</v-card-text>
+        <v-card-text>Si vous souhaitez vous inscrire et participer activement à la création du projet en tant que beta-testeur, merci d'écrire à noloxe.web@gmail.com en expliquant vos motivations.</v-card-text>
+      <!-- <v-container center>
         <div>
           <v-text-field
             v-model="emailReg"
@@ -42,10 +46,11 @@
             required
           ></v-text-field>
         </div>
-        <v-btn type="submit" class="stylised-letter main-btn" small block text>Inscription</v-btn>
+        <v-btn type="submit" class="stylised-letter main-btn" small block text>Inscription</v-btn> -->
         <p class="login-menu__login-form__toggle-elt" @click="toggleLoginForm">
           Déjà inscrit?
         </p>
+      </v-card>
       </v-container>
     </v-form>
   </div>
@@ -74,13 +79,13 @@ export default Vue.extend({
         password: this.passwordLog,
       })
     },
-    async submitRegister() {
-      await this.$strapi.register({
-        email: this.emailReg,
-        username: this.usernameReg,
-        password: this.passwordReg,
-      })
-    },
+    // async submitRegister() {
+    //  await this.$strapi.register({
+    //    email: this.emailReg,
+    //    username: this.usernameReg,
+    //    password: this.passwordReg,
+    //  })
+    // },
     toggleLoginForm() {
       this.loginForm = !this.loginForm
     },
