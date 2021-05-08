@@ -26,7 +26,6 @@
               @deleteScreen="deleteScreen"
             />
               <v-overlay
-                :z-index="zIndex"
                 :value="deleteConfirmationOverlay"
               >
               <v-card>
@@ -98,13 +97,14 @@ export default Vue.extend({
       const maxWidth = "80vw"
       return width < maxWidth ? width : maxWidth
     },
+    isAuthor() {
+      console.log(this.$strapi.user && this.screenData.user.id)
+      return this.$strapi.user && this.$strapi.user.id === this.screenData.user.id
+    },
   },
   methods: {
     toggleFullSize() {
       this.fullSize = !this.fullSize
-    },
-    isAuthor(screenId) {
-      return this.$strapi.user && screenId === this.$strapi.user.id
     },
     toggleEditScreen() {
       this.editScreen = !this.editScreen
