@@ -6,9 +6,6 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; Project GameArt</span>
-    </v-footer>
   </v-app>
 </template>
 

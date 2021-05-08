@@ -61,10 +61,6 @@ export default {
           title: "Categories",
           to: "/categories",
         },
-        {
-          title: "Screeners",
-          to: "/screeners",
-        },
       ],
       userLinks: [
         {
@@ -72,11 +68,7 @@ export default {
           to: "/user/profile",
         },
         {
-          title: "Bibliothèque",
-          to: "/user/screens",
-        },
-        {
-          title: "Ajout Screen",
+          title: "Gestion Screens",
           to: "/user/upload",
         },
       ],
@@ -84,7 +76,7 @@ export default {
   },
   computed: {
     isAuthenticated() {
-      return this.$strapi.user?.confirmed
+      return this.$strapi?.user?.confirmed
     },
     userName() {
       const { username } = this.$strapi.user
