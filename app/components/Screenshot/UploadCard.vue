@@ -75,7 +75,7 @@ export default Vue.extend({
         title: this.title,
         subtitle: this.subtitle,
         user: this.$strapi.user.id,
-        categories: this.categories.map((c) => c.id),
+        categories: this.selectedCategories,
         game: this.game.id,
         picture: file.id,
       }
@@ -88,7 +88,7 @@ export default Vue.extend({
       const screenDatas = {
         title: this.title,
         subtitle: this.subtitle,
-        categories: this.categories.map((c) => c.id),
+        categories: this.selectedCategories,
       }
       const updatedScreen = await this.$strapi.update(
         "screenshots",
