@@ -4,7 +4,7 @@ module.exports = {
     cors: {
       enabled: true,
       headers: '*',
-      origin: ['*'],
+      origin: ['http://54.36.101.143'],
     },
   },
 };
