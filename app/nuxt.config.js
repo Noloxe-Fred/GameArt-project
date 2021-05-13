@@ -71,7 +71,7 @@ export default {
   },
   env: {
     rawgApiUrl: "https://api.rawg.io/api/games",
-    rawgApiKey: process.env.RAWG_API_KEY,
+    rawgApiKey: process.env.RAWG_API_KEY || '?key=1655d466580d48e1a14f9c78b7e741d6',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
