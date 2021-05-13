@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="screensList.length">
     <v-col v-for="item in screensList" :key="item.id" md="4">
       <screen-card-basic
         :screen-data="item"

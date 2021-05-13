@@ -70,7 +70,7 @@ export default {
     url: process.env.API_URL || "http://localhost:1337",
   },
   env: {
-    rawgApiUrl: "https://api.rawg.io/api/games",
+    rawgApiUrl: "https://api.rawg.io/api/games?key=1655d466580d48e1a14f9c78b7e741d6",
     rawgApiKey: process.env.RAWG_API_KEY || '?key=1655d466580d48e1a14f9c78b7e741d6',
   },
 

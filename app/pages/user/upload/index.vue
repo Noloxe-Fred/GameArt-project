@@ -86,7 +86,6 @@ export default Vue.extend({
     async searchGame() {
       const { results } = await this.$axios.$get(
         process.env.rawgApiUrl +
-          process.env.rawgApiKey +
           "&?search=" +
           this.searchValue
       )
