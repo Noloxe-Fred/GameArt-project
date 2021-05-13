@@ -1,12 +1,12 @@
 <template>
-<div>
-  <v-row class="categories-menu" justify="space-around">
-    <div v-for="category in categories" :key="category.id" elevation="2">
-      <v-btn class="categories-menu__item stylised-letter" :outlined="category.id == selectedCategory" elevation="5" @click="changeCategory(category.id)">{{category.type}}</v-btn>
-    </div>
-  </v-row>
-  <MainGallery :screensList="screenshotsCategory" :loadMore="loadMore" />
-</div>
+  <div>
+    <v-row class="categories-menu" justify="space-around">
+      <div v-for="category in categories" :key="category.id" elevation="2">
+        <v-btn class="categories-menu__item stylised-letter" :outlined="category.id == selectedCategory" elevation="5" @click="changeCategory(category.id)">{{category.type}}</v-btn>
+      </div>
+    </v-row>
+    <MainGallery v-if="screenshotsCategory.length" :screensList="screenshotsCategory" :loadMore="loadMore" />
+  </div>
 </template>
 
 <script>
@@ -24,7 +24,6 @@ export default Vue.extend({
     const initPageCategory = categories[0].id;
     const count = await context.$strapi.count('screenshots', { categories: initPageCategory });
     const initPageScreenshots = await context.$strapi.find('screenshots', { categories: initPageCategory, _sort: 'createdAt:desc', _start: 0, _limit: 10 });
-    console.log(count, initPageScreenshots.length)
     return {
       categories,
       selectedCategory: initPageCategory,

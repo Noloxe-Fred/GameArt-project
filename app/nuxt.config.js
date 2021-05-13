@@ -41,10 +41,11 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     "@nuxtjs/vuetify",
+    ['@nuxtjs/dotenv', { systemvars: true }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/strapi", "@nuxtjs/axios", "@nuxtjs/style-resources"],
+  modules: ["@nuxtjs/strapi", "@nuxtjs/axios", "@nuxtjs/style-resources", '@nuxtjs/dotenv'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

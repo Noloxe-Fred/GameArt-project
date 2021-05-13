@@ -84,17 +84,22 @@ export default Vue.extend({
       this.searchedGamesList = value
     },
     async searchGame() {
-      const { results } = await this.$axios.$get(
-        process.env.rawgApiUrl + process.env.rawgApiKey +
-          "&?search=" +
-          this.searchValue
-      )
-      const games = results.map(({ id, name, background_image }) => ({
-        id,
-        name,
-        imageUrl: background_image,
-      }))
-      this.setSearchedGamesList(games)
+      try {
+        console.log(process.env.rawgApiKey)
+        const { results } = await this.$axios.$get(
+          process.env.rawgApiUrl + process.env.rawgApiKey +
+            "&search=" +
+            this.searchValue
+        )
+        const games = results.map(({ id, name, background_image }) => ({
+          id,
+          name,
+          imageUrl: background_image,
+        }))
+        this.setSearchedGamesList(games)
+      } catch {
+        alert('Erreur lors de la recherche')
+      }
     },
     async goToUpload(id) {
       this.$router.push({ path: `/user/upload/${id}` })
