@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="fullSize" fullscreen  @click:outside="toggleFullSize">
+    <v-dialog v-model="fullSize" fullscreen content-class="fullscreen-dialog"  @click:outside="toggleFullSize">
       <v-card class="fullscreen-img">
         <v-row>
           <v-col sm="10" class="fixed">
@@ -155,6 +155,10 @@ export default Vue.extend({
       }
     }
   }
+}
+
+.fullscreen-dialog {
+    padding: 15px !important;
 }
 
 .fullscreen-img {
