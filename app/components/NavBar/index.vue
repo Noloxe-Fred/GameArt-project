@@ -1,7 +1,7 @@
 <template>
   <v-app-bar dense class="second-background" fixed app>
     <v-tabs>
-      <v-tab to="/"><v-img width="160" :src="require('../../assets/images/Logo.png')"/></v-tab>
+      <v-tab to="/"><v-img width="100" height="40" contain :src="require('../../assets/images/Final.png')"/></v-tab>
       <v-tabs-slider class="navbar__main-menu__slider"></v-tabs-slider>
       <v-tab v-for="(item, index) in menuLinks" :key="index" :to="item.to" class="stylised-letter main-btn">{{ item.title }}</v-tab>
     </v-tabs>
