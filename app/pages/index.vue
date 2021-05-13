@@ -1,5 +1,5 @@
 <template>
-  <MainGallery :screensList="this.screensList" :loadMore="this.loadMore" />
+  <MainGallery v-if="screensList.length" :screensList="screensList" :loadMore="loadMore" />
 </template>
 
 <script>
@@ -7,6 +7,7 @@ import Vue from 'vue';
 import MainGallery from "../components/Screenshot/MainGallery";
 
 export default Vue.extend({
+  name: 'Home',
   components: {
     MainGallery
   },

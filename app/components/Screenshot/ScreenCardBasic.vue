@@ -105,7 +105,6 @@ export default Vue.extend({
       return width < maxWidth ? width : maxWidth
     },
     isAuthor() {
-      console.log(this.$strapi.user && this.screenData.user.id)
       return this.$strapi.user && this.$strapi.user.id === this.screenData.user.id
     },
   },

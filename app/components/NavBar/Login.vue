@@ -73,7 +73,6 @@ export default Vue.extend({
   }),
   methods: {
     async submitLogin() {
-      console.log({ identifier: this.usernameLog, password: this.passwordLog })
       await this.$strapi.login({
         identifier: this.usernameLog,
         password: this.passwordLog,
