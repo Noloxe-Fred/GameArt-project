@@ -19,13 +19,13 @@
               <v-card-subtitle>{{ screenData.user.username }}</v-card-subtitle>
               <v-divider class="mx-4"></v-divider>
               <v-card-text>{{ screenData.title }}</v-card-text>
-              <v-divider v-if="isAuthor" class="mx-4"></v-divider>
-              <v-card-actions v-if="isAuthor" class="fullscreen-img__manage-btn">
+              <v-divider v-if="canEdit" class="mx-4"></v-divider>
+              <v-card-actions v-if="canEdit" class="fullscreen-img__manage-btn">
                 <v-btn @click="toggleEditScreen">Editer</v-btn>
                 <v-btn @click="toggleDeleteConfirmation">Supprimer</v-btn>
               </v-card-actions>
             </v-card>
-            <div v-if="isAuthor">
+            <div v-if="canEdit">
               <UploadCard
                 :is-active="editScreen"
                 :game="screenData.game"
@@ -87,7 +87,7 @@ import Vue from "vue"
 
 export default Vue.extend({
   name: "ScreenCardUser",
-  props: ["screenData"],
+  props: { screenData: Object, canEdit: { type: Boolean, default: false } },
   data() {
     return {
       fullSize: false,
@@ -103,9 +103,6 @@ export default Vue.extend({
       const { width } = this.screenData.picture
       const maxWidth = "80vw"
       return width < maxWidth ? width : maxWidth
-    },
-    isAuthor() {
-      return this.$strapi.user && this.$strapi.user.id === this.screenData.user.id
     },
   },
   methods: {

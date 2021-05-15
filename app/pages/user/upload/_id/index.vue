@@ -11,7 +11,7 @@
       @updateUserScreen="updateUserScreen"
     />
     <section>
-      <MainGallery :screens-list="userScreens" :load-more="loadMore" />
+      <MainGallery :screens-list="userScreens" :load-more="loadMore" :can-edit="true" @deleteScreen="deleteScreen" />
     </section>
   </div>
 </template>
@@ -92,6 +92,9 @@ export default Vue.extend({
       })
       this.userScreens.push(...newScreens)
     },
+    deleteScreen({ id }) {
+      this.userScreens = this.userScreens.filter((screen) => screen.id !== id)
+    }
   },
 })
 </script>
