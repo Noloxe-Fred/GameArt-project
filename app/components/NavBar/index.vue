@@ -1,23 +1,30 @@
 <template>
   <v-app-bar dense class="second-background" fixed app>
     <v-tabs>
-      <v-tab to="/"><v-img width="70" height="40" contain :src="require('../../assets/images/Final.png')"/></v-tab>
+      <v-tab to="/"
+        ><v-img
+          width="70"
+          height="40"
+          contain
+          :src="require('../../assets/images/Final.png')"
+      /></v-tab>
       <v-tabs-slider class="navbar__main-menu__slider"></v-tabs-slider>
-      <v-tab v-for="(item, index) in menuLinks" :key="index" :to="item.to" class="stylised-letter main-btn">{{ item.title }}</v-tab>
+      <v-tab
+        v-for="(item, index) in menuLinks"
+        :key="index"
+        :to="item.to"
+        class="stylised-letter main-btn"
+        >{{ item.title }}</v-tab
+      >
     </v-tabs>
     <v-spacer />
     <v-menu v-if="isAuthenticated" offset-y>
       <template #activator="{ on, attrs }">
-        <v-btn
-          class="mx-2 stylised-letter"
-          text
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-btn class="mx-2 stylised-letter" text v-bind="attrs" v-on="on">
           {{ userName }}
         </v-btn>
       </template>
-      <v-list class="navbar__menu-list" >
+      <v-list class="navbar__menu-list">
         <v-list-item v-for="(item, index) in userLinks" :key="index">
           <v-btn text :to="item.to">{{ item.title }}</v-btn>
         </v-list-item>
@@ -80,7 +87,7 @@ export default {
     },
     userName() {
       const { username } = this.$strapi.user
-      return username;
+      return username
     },
   },
   methods: {
