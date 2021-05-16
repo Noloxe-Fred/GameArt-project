@@ -53,7 +53,7 @@ export default Vue.extend({
         return
       }
       this.loadMore(this.start)
-      this.increaseStart
+      this.increaseStart()
     },
     updateScreenData({ updatedScreen }) {
       this.screensList = this.screensList.map((screen) => {
