@@ -2,7 +2,7 @@
   <v-app dark>
     <NavBar />
     <v-main class="main-background">
-      <v-container fluid style="width: 90%">
+      <v-container fluid>
         <nuxt />
       </v-container>
     </v-main>

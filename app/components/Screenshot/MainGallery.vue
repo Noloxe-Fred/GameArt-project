@@ -20,7 +20,11 @@ export default Vue.extend({
   components: {
     ScreenCardBasic,
   },
-  props: { screensList: Array, loadMore: Function, canEdit: { type: Boolean, default: false } },
+  props: {
+    screensList: Array,
+    loadMore: Function,
+    canEdit: { type: Boolean, default: false },
+  },
   data() {
     return {
       start: 10,
@@ -64,8 +68,8 @@ export default Vue.extend({
       })
     },
     deleteScreen({ id }) {
-      this.$emit('deleteScreen', { id })
-    }
+      this.$emit("deleteScreen", { id })
+    },
   },
 })
 </script>

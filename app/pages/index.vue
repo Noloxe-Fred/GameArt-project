@@ -1,22 +1,30 @@
 <template>
-  <MainGallery v-if="screensList.length" :screensList="screensList" :loadMore="loadMore" />
+  <MainGallery
+    v-if="screensList.length"
+    :screens-list="screensList"
+    :load-more="loadMore"
+  />
 </template>
 
 <script>
-import Vue from 'vue';
-import MainGallery from "../components/Screenshot/MainGallery";
+import Vue from "vue"
+import MainGallery from "../components/Screenshot/MainGallery"
 
 export default Vue.extend({
-  name: 'Home',
+  name: "Home",
   components: {
-    MainGallery
+    MainGallery,
   },
   async asyncData(context) {
-    const count = await context.$strapi.count('screenshots');
-    const screensList = await context.$strapi.find('screenshots', { _start: 0, _limit: 10,  _sort: 'createdAt:desc', });
+    const count = await context.$strapi.count("screenshots")
+    const screensList = await context.$strapi.find("screenshots", {
+      _start: 0,
+      _limit: 10,
+      _sort: "createdAt:desc",
+    })
     return {
       screensList,
-      count
+      count,
     }
   },
   data() {
@@ -28,11 +36,15 @@ export default Vue.extend({
   methods: {
     async loadMore(start) {
       if (this.screensList.length >= this.count) {
-        return;
+        return
       }
-      const newScreens = await this.$strapi.find('screenshots', { _start: start, _limit: 10, _sort: 'createdAt:desc', });
-      this.screensList.push(...newScreens);
-    }
-  }
+      const newScreens = await this.$strapi.find("screenshots", {
+        _start: start,
+        _limit: 10,
+        _sort: "createdAt:desc",
+      })
+      this.screensList.push(...newScreens)
+    },
+  },
 })
 </script>
