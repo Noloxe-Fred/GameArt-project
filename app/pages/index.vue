@@ -1,49 +1,48 @@
 <template>
   <MainGallery
-    v-if="screensList.length"
-    :screens-list="screensList"
-    :load-more="loadMore"
+    v-if="getScreensListDatas.list.length > 0"
+    :screens-list-datas="getScreensListDatas"
+    :list-name="getListName"
   />
 </template>
 
 <script>
 import Vue from "vue"
+import { mapGetters } from "vuex"
 import MainGallery from "../components/Screenshot/MainGallery"
+import { MAIN_GALLERY_PAGINATION_BASE } from "../store/modules/mainGalleryLists"
+
+const HOME_LIST_NAME = "HOME_LIST"
 
 export default Vue.extend({
   name: "Home",
   components: {
     MainGallery,
   },
-  async asyncData(context) {
-    const count = await context.$strapi.count("screenshots")
-    const screensList = await context.$strapi.find("screenshots", {
-      _start: 0,
-      _limit: 10,
-      _sort: "createdAt:desc",
-    })
-    return {
-      screensList,
-      count,
-    }
-  },
-  data() {
-    return {
-      screensList: [],
-      count: null,
-    }
-  },
-  methods: {
-    async loadMore(start) {
-      if (this.screensList.length >= this.count) {
-        return
+  async asyncData({ store, $strapi }) {
+    if (!store.state.modules.mainGalleryLists.lists[HOME_LIST_NAME]) {
+      const total = await $strapi.count("screenshots")
+      const screensListFetched = await $strapi.find(
+        "screenshots",
+        MAIN_GALLERY_PAGINATION_BASE
+      )
+      const screensListDatas = {
+        listName: HOME_LIST_NAME,
+        total,
+        list: screensListFetched,
       }
-      const newScreens = await this.$strapi.find("screenshots", {
-        _start: start,
-        _limit: 10,
-        _sort: "createdAt:desc",
-      })
-      this.screensList.push(...newScreens)
+      store.dispatch("modules/mainGalleryLists/initList", screensListDatas)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      screensListDatas: "modules/mainGalleryLists/getListDatasByName",
+    }),
+    getScreensListDatas() {
+      return this.screensListDatas(HOME_LIST_NAME)
+    },
+    getListName() {
+      return HOME_LIST_NAME
     },
   },
 })

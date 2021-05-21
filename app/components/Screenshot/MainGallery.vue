@@ -1,6 +1,6 @@
 <template>
-  <v-row v-if="screensList.length">
-    <v-col v-for="item in screensList" :key="item.id" md="4">
+  <v-row v-if="screensListDatas.list.length">
+    <v-col v-for="item in screensListDatas.list" :key="item.id" md="4">
       <screen-card-basic
         :screen-data="item"
         :can-edit="canEdit"
@@ -21,14 +21,10 @@ export default Vue.extend({
     ScreenCardBasic,
   },
   props: {
-    screensList: Array,
-    loadMore: Function,
+    screensListDatas: Object,
+    listName: String,
+    listFilters: { type: Object, default: {} },
     canEdit: { type: Boolean, default: false },
-  },
-  data() {
-    return {
-      start: 10,
-    }
   },
   mounted() {
     this.scroll()
@@ -49,15 +45,23 @@ export default Vue.extend({
         }
       }
     },
-    increaseStart() {
-      this.start = this.start + 10
-    },
     async loadMoreImages() {
-      if (this.screensList.length >= this.count) {
+      console.log(this.listFilters)
+      const { list, total, _start, _limit, _sort } = this.screensListDatas
+
+      if (list.length >= total) {
         return
       }
-      this.loadMore(this.start)
-      this.increaseStart()
+      const newScreens = await this.$strapi.find("screenshots", {
+        ...this.listFilters,
+        _start,
+        _limit,
+        _sort,
+      })
+      this.$store.dispatch("modules/mainGalleryLists/increaseList", {
+        listName: this.listName,
+        list: newScreens,
+      })
     },
     updateScreenData({ updatedScreen }) {
       this.screensList = this.screensList.map((screen) => {
