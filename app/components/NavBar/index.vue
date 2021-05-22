@@ -66,7 +66,7 @@ export default {
       menuLinks: [
         {
           title: "Categories",
-          to: "/categories",
+          to: "/categories/art",
         },
       ],
       userLinks: [

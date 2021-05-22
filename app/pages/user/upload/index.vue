@@ -85,9 +85,9 @@ export default Vue.extend({
     },
     async searchGame() {
       try {
-        console.log(process.env.rawgApiKey)
         const { results } = await this.$axios.$get(
-          process.env.rawgApiUrl + process.env.rawgApiKey +
+          process.env.rawgApiUrl +
+            process.env.rawgApiKey +
             "&search=" +
             this.searchValue
         )
@@ -98,7 +98,7 @@ export default Vue.extend({
         }))
         this.setSearchedGamesList(games)
       } catch {
-        alert('Erreur lors de la recherche')
+        alert("Erreur lors de la recherche")
       }
     },
     async goToUpload(id) {

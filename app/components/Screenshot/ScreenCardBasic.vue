@@ -4,7 +4,7 @@
       <v-card class="screen-card" elevation="20">
         <v-img
           :aspect-ratio="16 / 9"
-          :src="`${getStrapiUrl}${screenData.picture.url}`"
+          :src="`${getStrapiUrl}${screenData.picture.formats.small.url}`"
         >
           <v-expand-transition>
             <div v-if="hover" class="screen-card__information">
