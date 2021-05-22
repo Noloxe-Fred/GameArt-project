@@ -37,6 +37,23 @@ const mutations = {
     }
     state.lists = { ...newState.lists }
   },
+  updateScreen(state, screenData) {
+    const newState = Object.entries(state.lists).map((item) => {
+      console.log(item[0], item[1])
+      return {
+        [item[0]]: {
+          ...item[1],
+          list: item[1].list.map((screen) => {
+            if (screen.id === screenData.id) {
+              return screenData
+            }
+            return screen
+          }),
+        },
+      }
+    })
+    state.lists = { ...newState }
+  },
 }
 
 const actions = {
@@ -45,6 +62,9 @@ const actions = {
   },
   initList({ commit }, { listName, total, list }) {
     commit("initList", { listName, total, list })
+  },
+  updateScreen({ commit }, screenData) {
+    commit("updateScreen", screenData)
   },
 }
 

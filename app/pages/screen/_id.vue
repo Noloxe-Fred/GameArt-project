@@ -54,15 +54,17 @@ export default Vue.extend({
   name: "ScreenPage",
   transition: "fade",
   async asyncData(context) {
-    const screenId = context.params.id
-    const screenData = await context.$strapi.findOne("screenshots", screenId)
+    const screenData = await context.$strapi.findOne(
+      "screenshots",
+      context.params.id
+    )
     return {
       screenData,
-      screenId,
     }
   },
   data() {
     return {
+      screenData: {},
       editScreen: false,
       deleteConfirmationOverlay: false,
     }
@@ -89,7 +91,8 @@ export default Vue.extend({
     toggleDeleteConfirmation() {
       this.deleteConfirmationOverlay = !this.deleteConfirmationOverlay
     },
-    updateScreenData({ updatedScreen }) {
+    updateScreenData(updatedScreen) {
+      console.log(this, updatedScreen)
       this.screenData = updatedScreen
     },
     async deleteScreen() {
@@ -97,8 +100,7 @@ export default Vue.extend({
         await this.$strapi.delete("screenshots", this.screenData.id)
         this.toggleFullSize()
         this.toggleDeleteConfirmation()
-        //this.$emit("deleteScreen", { id: this.screenData.id })
-        alert("screen supprimé")
+        alert("Screen supprimé")
       } catch {
         alert("Erreur lors de la suppression")
       }

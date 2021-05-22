@@ -9,7 +9,11 @@
           <h3>Catégories:</h3>
           <v-row no-gutters justify="center">
             <v-col v-for="item in categories" :key="item.id" sm="2">
-              <v-checkbox v-model="selectedCategories" :label="item.type" :value="item.id" />
+              <v-checkbox
+                v-model="selectedCategories"
+                :label="item.type"
+                :value="item.id"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -20,9 +24,12 @@
         ></v-file-input>
         <v-container>
           <v-row justify="space-between">
-            <v-btn :disabled="disabledSubmit" :loading="loadingUpload" type="submit">{{
-              type === "create" ? "Envoyer" : "Modifier"
-            }}</v-btn>
+            <v-btn
+              :disabled="disabledSubmit"
+              :loading="loadingUpload"
+              type="submit"
+              >{{ type === "create" ? "Envoyer" : "Modifier" }}</v-btn
+            >
             <v-alert
               v-if="uploadDone"
               dense
@@ -48,10 +55,19 @@ export default Vue.extend({
       loadingUpload: false,
       uploadDone: false,
       uploadSuccess: null,
-      }
+    }
   },
   async fetch() {
     this.categories = await this.$strapi.find("categories")
+  },
+  computed: {
+    disabledSubmit() {
+      return (
+        !this.title ||
+        !this.selectedCategories.length ||
+        (this.type === "create" && !this.file)
+      )
+    },
   },
   methods: {
     initialState() {
@@ -69,13 +85,13 @@ export default Vue.extend({
       }
     },
     setLoadingUpload(value) {
-      this.loadingUpload = value;
+      this.loadingUpload = value
     },
     setUploadDone(value) {
-      this.uploadDone = value;
+      this.uploadDone = value
     },
     setUploadSuccess(value) {
-      this.uploadSuccess = value;
+      this.uploadSuccess = value
     },
     reset() {
       Object.assign(this.$data, this.initialState())
@@ -109,9 +125,9 @@ export default Vue.extend({
       this.setLoadingUpload(false)
       this.setUploadDone(true)
       if (newScreen.id) {
-        this.setUploadSuccess(true);
+        this.setUploadSuccess(true)
       } else {
-        this.setUploadSuccess(false);
+        this.setUploadSuccess(false)
       }
     },
     async editScreen() {
@@ -125,25 +141,24 @@ export default Vue.extend({
         this.editDatas.id,
         screenDatas
       )
-      this.reset();
-      this.$emit("updateScreenData", { updatedScreen });
-      this.$emit("toggle");
-      this.setLoadingUpload(false);
+      this.reset()
+      await this.$store.dispatch(
+        "modules/mainGalleryLists/updateScreen",
+        updatedScreen
+      )
+      this.$emit("updateScreenData", updatedScreen)
+      this.$emit("toggle")
+      this.setLoadingUpload(false)
     },
     submitForm() {
-      this.setUploadDone(false);
-      this.setLoadingUpload(true);
+      this.setUploadDone(false)
+      this.setLoadingUpload(true)
       if (this.type === "create") {
         return this.submitScreen()
       }
       return this.editScreen()
     },
   },
-  computed: {
-    disabledSubmit() {
-      return !this.title || !this.selectedCategories.length || ( this.type === 'create' && !this.file );
-    }
-  }
 })
 </script>
 

@@ -1,12 +1,7 @@
 <template>
   <v-row v-if="screensListDatas.list.length">
     <v-col v-for="item in screensListDatas.list" :key="item.id" sm="12" md="3">
-      <screen-card-basic
-        :screen-data="item"
-        :can-edit="canEdit"
-        @updateScreenData="updateScreenData"
-        @deleteScreen="deleteScreen"
-      />
+      <screen-card-basic :screen-data="item" :can-edit="canEdit" />
     </v-col>
   </v-row>
 </template>
@@ -23,7 +18,7 @@ export default Vue.extend({
   props: {
     screensListDatas: Object,
     listName: String,
-    listFilters: { type: Object, default: {} },
+    listFilters: { type: Object, default: () => {} },
     canEdit: { type: Boolean, default: false },
   },
   mounted() {
@@ -62,17 +57,6 @@ export default Vue.extend({
         listName: this.listName,
         list: newScreens,
       })
-    },
-    updateScreenData({ updatedScreen }) {
-      this.screensList = this.screensList.map((screen) => {
-        if (screen.id === updatedScreen.id) {
-          return updatedScreen
-        }
-        return screen
-      })
-    },
-    deleteScreen({ id }) {
-      this.$emit("deleteScreen", { id })
     },
   },
 })
