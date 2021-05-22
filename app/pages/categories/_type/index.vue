@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-row class="categories-menu" justify="space-around">
-      <div v-for="category in categories" :key="category.id" elevation="2">
+      <div v-for="category in getCategories" :key="category.id" elevation="2">
         <v-btn
           class="categories-menu__item stylised-letter"
           :outlined="category.id == selectedCategory"
           elevation="5"
-          @click="changeCategory(category.id)"
+          :to="getLink(category.type)"
           >{{ category.type }}</v-btn
         >
       </div>
@@ -34,26 +34,28 @@ export default Vue.extend({
     MainGallery,
   },
   async asyncData({ store, $strapi, route }) {
-    console.log(route)
-    const categories = await $strapi.find("categories")
-    console.log(categories)
-    const initPageCategory = categories.find(
-      (c) => c.type === route.params.type
-    ).id
+    let categories = []
+    if (!store.state.modules.categories.list.length) {
+      categories = await $strapi.find("categories")
+      store.dispatch("modules/categories/initCategories", categories)
+    } else {
+      categories = store.state.modules.categories.list
+    }
+    const pageCategory = categories.find((c) => c.type === route.params.type).id
     if (
       !store.state.modules.mainGalleryLists.lists[
-        CATEGORIES_LIST_NAME(initPageCategory)
+        CATEGORIES_LIST_NAME(pageCategory)
       ]
     ) {
       const total = await $strapi.count("screenshots", {
-        categories: initPageCategory,
+        categories: pageCategory,
       })
       const screensListFetched = await $strapi.find("screenshots", {
-        categories: initPageCategory,
+        categories: pageCategory,
         ...MAIN_GALLERY_PAGINATION_BASE,
       })
       const screensListDatas = {
-        listName: CATEGORIES_LIST_NAME(initPageCategory),
+        listName: CATEGORIES_LIST_NAME(pageCategory),
         total,
         list: screensListFetched,
       }
@@ -61,9 +63,8 @@ export default Vue.extend({
     }
 
     return {
-      categories,
-      selectedCategory: initPageCategory,
-      listName: CATEGORIES_LIST_NAME(initPageCategory),
+      selectedCategory: pageCategory,
+      listName: CATEGORIES_LIST_NAME(pageCategory),
     }
   },
   computed: {
@@ -79,44 +80,13 @@ export default Vue.extend({
     getListFilters() {
       return { categories: this.selectedCategory }
     },
+    getCategories() {
+      return this.$store.state.modules.categories.list
+    },
   },
   methods: {
-    setListName(listName) {
-      this.listName = listName
-    },
-    async getScreensList(categoryId) {
-      if (
-        !this.$store.state.modules.mainGalleryLists.lists[
-          CATEGORIES_LIST_NAME(categoryId)
-        ]
-      ) {
-        const total = await this.$strapi.count("screenshots", {
-          categories: categoryId,
-        })
-        const screensListFetched = await this.$strapi.find("screenshots", {
-          categories: categoryId,
-          ...MAIN_GALLERY_PAGINATION_BASE,
-        })
-        const screensListDatas = {
-          listName: CATEGORIES_LIST_NAME(categoryId),
-          total,
-          list: screensListFetched,
-        }
-        this.$store.dispatch(
-          "modules/mainGalleryLists/initList",
-          screensListDatas
-        )
-        return screensListDatas
-      } else {
-        return this.$store.state.modules.mainGalleryLists.lists[
-          CATEGORIES_LIST_NAME(categoryId)
-        ]
-      }
-    },
-    async changeCategory(id) {
-      await this.getScreensList(id)
-      this.setListName(CATEGORIES_LIST_NAME(id))
-      this.selectedCategory = id
+    getLink(type) {
+      return `/categories/${type}`
     },
   },
 })
